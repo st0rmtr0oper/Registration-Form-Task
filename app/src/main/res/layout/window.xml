@@ -17,6 +17,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:background="@color/white"
+                android:textColor="@color/black"
                 android:text="@string/greetings"
                 android:textAlignment="center"
                 android:textAllCaps="true"

@@ -1,6 +1,7 @@
 package com.example.registrationformtask.greetings
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.example.registrationformtask.R
 import com.example.registrationformtask.databinding.FragmentGreetingsBinding
 import com.example.registrationformtask.reg.RegisterFragmentArgs
 
+
 class GreetingsFragment: Fragment() {
     //Data binding
     private lateinit var binding: FragmentGreetingsBinding
@@ -22,6 +24,9 @@ class GreetingsFragment: Fragment() {
     //ViewModels for receiving data
     private lateinit var viewModel: GreetingsViewModel
     private lateinit var viewModelFactory: GreetingsViewModelFactory
+
+    val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +42,7 @@ class GreetingsFragment: Fragment() {
             binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_greetings, container, false
         )
+
 
         //ClickListener
         binding.greetButton.setOnClickListener {

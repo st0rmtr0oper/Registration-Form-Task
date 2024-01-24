@@ -9,4 +9,9 @@
     <string name="name">Имя</string>
     <string name="registration">Зарегистрироваться</string>
     <string name="greetings">Добро пожаловать!</string>
+
+    <string name="saved_name">"name_key"</string>
+    <string name="saved_surname">"surname_key"</string>
+    <string name="saved_date">"date_key"</string>
+    <string name="saved_password">"password_key"</string>
 </resources>

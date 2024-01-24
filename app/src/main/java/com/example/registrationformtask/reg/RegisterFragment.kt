@@ -1,6 +1,7 @@
 package com.example.registrationformtask.reg
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +9,15 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.registrationformtask.databinding.FragmentRegisterBinding
-import java.util.Calendar
-import com.example.registrationformtask.R
-import java.text.SimpleDateFormat
-import java.util.Locale
 import androidx.navigation.fragment.findNavController
+import com.example.registrationformtask.R
+import com.example.registrationformtask.databinding.FragmentRegisterBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
-class RegisterFragment: Fragment() {
+class RegisterFragment : Fragment() {
     //for DatePicker
     private val myCalendar: Calendar = Calendar.getInstance()
 
@@ -33,6 +34,8 @@ class RegisterFragment: Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_register, container, false
         )
+
+        checkRegistration()
 
         //DatePicker
         val date =
@@ -56,13 +59,20 @@ class RegisterFragment: Fragment() {
         binding.materialButton.setOnClickListener {
             val check: Boolean = validate()
             if (check) {
+                SaveUserData()
+                //transition to 2 fragment
                 val username = binding.name.editText?.text.toString()
-                findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToGreetingsFragment(username))
+                findNavController().navigate(
+                    RegisterFragmentDirections.actionRegisterFragmentToGreetingsFragment(
+                        username
+                    )
+                )
             }
         }
 
         return binding.root
     }
+
     private fun updateLabel() {
         val myFormat = "MM.dd.yyyy"
         val dateFormat = SimpleDateFormat(myFormat, Locale.US)
@@ -99,7 +109,10 @@ class RegisterFragment: Fragment() {
                 "[!\"#$%&'()*+,-./:;\\\\<=>?@\\[\\]^_`{|}~]".toRegex()
             )
         ) {
-            showHint(binding.password.editText, "Слабый пароль. Пожалуйста, добавьте цифры и другие символы (!?.,=<> и тд.)")
+            showHint(
+                binding.password.editText,
+                "Слабый пароль. Пожалуйста, добавьте цифры и другие символы (!?.,=<> и тд.)"
+            )
             return false
         } else if (confirmedPassword.isEmpty() || confirmedPassword != password) {
             showHint(binding.passwordConfirm.editText, "Пароли не сходятся")
@@ -109,8 +122,52 @@ class RegisterFragment: Fragment() {
         }
 
     }
+
     private fun showHint(text: EditText?, hint: String) {
         text?.error = hint
         text?.requestFocus()
+    }
+
+    private fun SaveUserData() {
+        //saving user's data in shared prefs
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putString(getString(R.string.saved_name), binding.name.editText?.text.toString())
+        editor.putString(
+            getString(R.string.saved_surname),
+            binding.surname.editText?.text.toString()
+        )
+        editor.putString(getString(R.string.saved_date), binding.date.editText?.text.toString())
+        editor.putString(
+            getString(R.string.saved_password),
+            binding.password.editText?.text.toString()
+        )
+        editor.apply()
+    }
+
+    private fun checkRegistration() {
+        //if strings in shared arent empty
+        //then fill texts and launch 2 fragment with username=saved_name
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+
+        val savedName = sharedPref.getString(getString(R.string.saved_name), "")
+        val savedSurname = sharedPref.getString(getString(R.string.saved_surname), "")
+        val savedDate = sharedPref.getString(getString(R.string.saved_date), "")
+        val savedPassword = sharedPref.getString(getString(R.string.saved_password), "")
+
+        if (!((savedName == "") || (savedSurname == "") || (savedDate == "") || (savedPassword == ""))) {
+            binding.name.editText?.setText(savedName)
+            binding.surname.editText?.setText(savedSurname)
+            binding.date.editText?.setText(savedDate)
+            binding.password.editText?.setText(savedPassword)
+            binding.passwordConfirm.editText?.setText(savedPassword)
+            if (savedName != null) {
+                findNavController().navigate(
+                    RegisterFragmentDirections.actionRegisterFragmentToGreetingsFragment(
+                        savedName
+                    )
+                )
+            }
+        }
     }
 }
