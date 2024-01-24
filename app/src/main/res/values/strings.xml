@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RegistrationFormTask</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="password_confirm">Подтвердите пароль</string>
+    <string name="password">Пароль</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Имя</string>
+</resources>
