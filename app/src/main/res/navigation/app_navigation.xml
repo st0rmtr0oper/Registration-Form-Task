@@ -7,5 +7,24 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.registrationformtask.reg.RegisterFragment"
-        android:label="RegisterFragment" />
+        android:label="Регистрация">
+        <action
+            android:id="@+id/action_registerFragment_to_greetingsFragment"
+            app:destination="@id/greetingsFragment"
+            app:popUpTo="@id/registerFragment" />
+        <argument
+            android:name="name"
+            android:defaultValue="undefined" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/greetingsFragment"
+        android:name="com.example.registrationformtask.greetings.GreetingsFragment"
+        android:label="Добро пожаловать">
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
 </navigation>

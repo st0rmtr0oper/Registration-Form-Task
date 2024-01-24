@@ -27,7 +27,7 @@ class RegisterFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         //DataBinding
         binding = DataBindingUtil.inflate(
@@ -56,11 +56,10 @@ class RegisterFragment: Fragment() {
         binding.materialButton.setOnClickListener {
             val check: Boolean = validate()
             if (check) {
-//                findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToMainFragment())
-                //TODO args? (name)
+                val username = binding.name.editText?.text.toString()
+                findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToGreetingsFragment(username))
             }
         }
-
 
         return binding.root
     }
@@ -71,11 +70,11 @@ class RegisterFragment: Fragment() {
     }
 
     private fun validate(): Boolean {
-        var name: String = binding.name.editText?.text.toString()
-        var surname: String = binding.surname.editText?.text.toString()
-        var birthday: String = binding.date.editText?.text.toString()
-        var password: String = binding.password.editText?.text.toString()
-        var confirmedPassword: String = binding.passwordConfirm.editText?.text.toString()
+        val name: String = binding.name.editText?.text.toString()
+        val surname: String = binding.surname.editText?.text.toString()
+        val birthday: String = binding.date.editText?.text.toString()
+        val password: String = binding.password.editText?.text.toString()
+        val confirmedPassword: String = binding.passwordConfirm.editText?.text.toString()
 
 
         if (name.isEmpty() || name.length < 2) {

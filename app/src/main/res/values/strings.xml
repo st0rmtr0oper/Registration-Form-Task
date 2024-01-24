@@ -8,4 +8,5 @@
     <string name="surname">Фамилия</string>
     <string name="name">Имя</string>
     <string name="registration">Зарегистрироваться</string>
+    <string name="greetings">Добро пожаловать!</string>
 </resources>
